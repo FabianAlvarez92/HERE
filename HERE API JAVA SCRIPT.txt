@@ -1,46 +1,62 @@
-// Mueve el mapa a Berlín
+/**
+ * Moves the map to display over Berlin
+ *
+ * @param  {H.Map} map      A HERE Map instance within the application
+ */
 function moveMapToBerlin(map){
   map.setCenter({lat:52.5159, lng:13.3777});
   map.setZoom(14);
 }
 
-// Configura tu API Key AQUÍ
-window.apiKey = 'tqk-zr4mZhDJwBxLJUnmuLgjCcwPF9yL4HVjZmyVgyI';
+/**
+ * Boilerplate map initialization code starts below:
+ */
 
-// Mostrar advertencia si falta la clave
+//Step 1: initialize communication with the platform
+// In your own code, replace variable apikey with your own apikey
+
+
+/***********************
+//
+//********* please set apiKey here *************/
+window.apiKey = tqk-zr4mZhDJwBxLJUnmuLgjCcwPF9yL4HVjZmyVgyI; 
+//
+/***********************/
+
+
 var alertWarningUi = document.getElementById('alert-warning');
-if(!window.apiKey){
-	alertWarningUi.style.display = 'block';
-} else {
+
+if(!apiKey){
+	alertWarningUi.style.display= 'block';
+} else{
 	alertWarningUi.style.display = 'none';
 }
 
-// Inicializar plataforma HERE
 var platform = new H.service.Platform({
-  apikey: window.apiKey
+  apikey: tqk-zr4mZhDJwBxLJUnmuLgjCcwPF9yL4HVjZmyVgyI
 });
 
 var defaultLayers = platform.createDefaultLayers();
 
-// Crear el mapa
-var map = new H.Map(
-  document.getElementById('map'),
-  defaultLayers.vector.normal.map,
-  {
-    center: {lat:50, lng:5},
-    zoom: 4,
-    pixelRatio: window.devicePixelRatio || 1
-  }
-);
-
-// Asegurar que se adapte al tamaño
+//Step 2: initialize a map - this map is centered over Europe
+var map = new H.Map(document.getElementById('map'),
+  defaultLayers.vector.normal.map,{
+  center: {lat:50, lng:5},
+  zoom: 4,
+  pixelRatio: window.devicePixelRatio || 1
+});
+// add a resize listener to make sure that the map occupies the whole container
 window.addEventListener('resize', () => map.getViewPort().resize());
 
-// Hacer interactivo
+//Step 3: make the map interactive
+// MapEvents enables the event system
+// Behavior implements default interactions for pan/zoom (also on mobile touch environments)
 var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+
+// Create the default UI components
 var ui = H.ui.UI.createDefault(map, defaultLayers);
 
-// Centrar en Berlín al cargar
+// Now use the map as required...
 window.onload = function () {
   moveMapToBerlin(map);
 }
